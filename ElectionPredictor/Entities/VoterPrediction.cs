@@ -12,5 +12,7 @@ namespace ElectionPredictor.Entities
 
         [ColumnName("Score")]
         public float[] VotingIntention;
+
+        public Party PredictedParty => (Party)PredictedLabel;
     }
 }

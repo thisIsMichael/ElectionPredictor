@@ -10,17 +10,78 @@ namespace ElectionPredictor
     {
         public IList<Voter> Voters = new List<Voter>();
 
-        public void GenerateVoters()
+        private bool votersGenerated = false;
+        private string location;
+
+        public void GenerateVotersNationally(int numberOfVoters)
         {
-            GenerateBlankVotersInRegions();
-            ApplyGender();
-            ApplyAgeGroups();
-            ApplySocialGroups();
-            ApplyEURefByRegion();
-            ApplyPreviousVoteByRegion();
+            if (votersGenerated)
+                throw new InvalidOperationException("Voters already generated for this Voter Manager");
+
+            votersGenerated = true;
+            location = "National";
+
+            GenerateBlankVotersInRegions(numberOfVoters);
+
+            ApplyGender(LoadNationalGenderMalePercentage());
+            
+            ApplyAgeGroups(LoadNationalAgeGroupPercentages());
+
+            ApplySocialGroupsByRegion(LoadPercentageABCSocialGradeByRegion());
+
+            ApplyEURefByRegion(LoadReferendumResultPercentageLeaveByRegion());
+
+            ApplyPreviousVoteByRegion(LoadPreviousVotePercentagesByRegion());
         }
 
-        internal void OutputVotingIntention()
+        public void GenerateVotersForConstituency(ConstituencyProfile constituency, int numberOfVoters)
+        {
+            if (votersGenerated)
+                throw new InvalidOperationException("Voters already generated for this Voter Manager");
+
+            votersGenerated = true;
+            location = constituency.Name;
+
+            GenerateBlankVotersInRegion(constituency.Region, numberOfVoters);
+
+            ApplyGender(LoadNationalGenderMalePercentage());
+
+            ApplyAgeGroups(constituency.Ages);
+
+            ApplySocialGroups(constituency.SocialGrades[SocialGrade.ABC1]);
+
+            ApplyEURef(constituency.ReferendumResults[ReferendumResult.Leave]);
+
+            ApplyPreviousVote(constituency.PreviousVote);
+
+        }
+
+        internal void OutputConstituencyVotingIntention()
+        {
+            Dictionary<Party, int> intensions = new Dictionary<Party, int>();
+            Dictionary<Region, int> regionCount = new Dictionary<Region, int>();
+
+            foreach (var v in Voters)
+            {
+                if (!intensions.ContainsKey(v.IntentionEnum.Value))
+                {
+                    intensions.Add(v.IntentionEnum.Value, 0);
+                }
+
+                intensions[v.IntentionEnum.Value] += 1;
+            }
+
+            Console.WriteLine($"Intention in {location}");
+            foreach (var party in intensions.Keys)
+            {
+                var count = 100d * intensions[party] / Voters.Count;
+                Console.WriteLine($"Party: {party}. %: {count}");
+            }
+
+            Console.WriteLine();
+        }
+
+        internal void OutputNationalVotingIntention()
         {
             Dictionary<Party, int> intensions = new Dictionary<Party, int>();
             Dictionary<Region, Dictionary<Party, int>> regionalIntentions = new Dictionary<Region, Dictionary<Party, int>>();
@@ -86,7 +147,7 @@ namespace ElectionPredictor
             }
         }
 
-        private void ApplyGender()
+        private double LoadNationalGenderMalePercentage()
         {
             Dictionary<Gender, double> genderPopulatations = new Dictionary<Gender, double>();
 
@@ -111,13 +172,17 @@ namespace ElectionPredictor
             var total = male + genderPopulatations[Gender.Female];
 
             var malePercent = 100 * male / total;
+            return malePercent;
+        }
 
+        private void ApplyGender(double percentMale)
+        {
             var rand = new Random();
             foreach (var v in Voters)
             {
                 var r = rand.Next(100);
 
-                if (r <= malePercent)
+                if (r <= percentMale)
                 {
                     v.GenderEnum = Gender.Male;
                 }
@@ -128,10 +193,9 @@ namespace ElectionPredictor
             }
         }
 
-        private void ApplyPreviousVoteByRegion()
+        private Dictionary<Region, Dictionary<Party, double>> LoadPreviousVotePercentagesByRegion()
         {
             Dictionary<Region, Dictionary<Party, double>> previousVotePopulations = new Dictionary<Region, Dictionary<Party, double>>();
-            Dictionary<Region, Dictionary<Party, double>> previousVotePercentages = new Dictionary<Region, Dictionary<Party, double>>();
 
             using (var reader = new StreamReader(Path.Combine(Environment.CurrentDirectory, "Data", "Vote15ByRegion.csv")))
             {
@@ -160,6 +224,13 @@ namespace ElectionPredictor
 
                 }
             }
+
+            return previousVotePopulations;
+        }
+
+        private void ApplyPreviousVoteByRegion(Dictionary<Region, Dictionary<Party, double>> previousVotePopulations)
+        {
+            Dictionary<Region, Dictionary<Party, double>> previousVotePercentages = new Dictionary<Region, Dictionary<Party, double>>();
 
             foreach (var region in previousVotePopulations.Keys)
             {
@@ -213,7 +284,54 @@ namespace ElectionPredictor
             }
         }
 
-        private void ApplyEURefByRegion()
+        private void ApplyPreviousVote(Dictionary<Party, double> previousVotePopulations)
+        {
+            Dictionary<Party, double> previousVotePercentages = new Dictionary<Party, double>();
+
+            double total = 0;
+            foreach (var party in previousVotePopulations.Keys)
+            {
+                total += previousVotePopulations[party];
+            }
+
+            var lastPercentage = 0d;
+
+            foreach (var party in previousVotePopulations.Keys)
+            {
+                var thisPercentage = 100 * previousVotePopulations[party] / total;
+                previousVotePercentages.Add(party, lastPercentage + thisPercentage);
+                lastPercentage = lastPercentage + thisPercentage;
+            }
+
+            var rand = new Random();
+            foreach (var v in Voters)
+            {
+                var r = rand.Next(100);
+
+                bool decidedVote = false;
+                foreach (var party in previousVotePercentages.Keys)
+                {
+                    if (decidedVote)
+                    {
+                        break;
+                    }
+
+                    if (r <= previousVotePercentages[party])
+                    {
+                        v.PreviousVoteEnum = party;
+                        decidedVote = true;
+                    }
+                }
+
+                if (decidedVote == false)
+                {
+                    throw new Exception("haven't decided how this person voted");
+                }
+
+            }
+        }
+
+        private Dictionary<Region, double> LoadReferendumResultPercentageLeaveByRegion()
         {
             Dictionary<Region, Dictionary<ReferendumResult, double>> referendumPopulations = new Dictionary<Region, Dictionary<ReferendumResult, double>>();
             Dictionary<Region, double> percentageLeave = new Dictionary<Region, double>();
@@ -251,6 +369,11 @@ namespace ElectionPredictor
                 percentageLeave.Add(region, percent);
             }
 
+            return percentageLeave;
+        }
+
+        private void ApplyEURefByRegion(Dictionary<Region, double> percentageLeave)
+        { 
             var rand = new Random();
             foreach (var v in Voters)
             {
@@ -267,7 +390,25 @@ namespace ElectionPredictor
             }
         }
 
-        private void ApplySocialGroups()
+        private void ApplyEURef(double percentageLeave)
+        {
+            var rand = new Random();
+            foreach (var v in Voters)
+            {
+                var r = rand.Next(100);
+
+                if (r <= percentageLeave)
+                {
+                    v.ReferendumResultEnum = ReferendumResult.Leave;
+                }
+                else
+                {
+                    v.ReferendumResultEnum = ReferendumResult.Remain;
+                }
+            }
+        }
+
+        private Dictionary<Region, double> LoadPercentageABCSocialGradeByRegion()
         {
             Dictionary<Region, Dictionary<SocialGrade, double>> socialGradePopulations = new Dictionary<Region, Dictionary<SocialGrade, double>>();
             Dictionary<Region, double> percentageABC1 = new Dictionary<Region, double>();
@@ -305,6 +446,11 @@ namespace ElectionPredictor
                 percentageABC1.Add(region, percent);
             }
 
+            return percentageABC1;
+        }
+
+        private void ApplySocialGroupsByRegion(Dictionary<Region, double> percentageABC1)
+        {
             var rand = new Random();
             foreach (var v in Voters)
             {
@@ -321,7 +467,25 @@ namespace ElectionPredictor
             }
         }
 
-        private void ApplyAgeGroups()
+        private void ApplySocialGroups(double percentageABC1)
+        {
+            var rand = new Random();
+            foreach (var v in Voters)
+            {
+                var r = rand.Next(100);
+
+                if (r <= percentageABC1)
+                {
+                    v.SocialGradeEnum = SocialGrade.ABC1;
+                }
+                else
+                {
+                    v.SocialGradeEnum = SocialGrade.C2DE;
+                }
+            }
+        }
+
+        private Dictionary<AgeGroup, double> LoadNationalAgeGroupPercentages()
         {
             Dictionary<AgeGroup, double> ageGroupsPopulations = new Dictionary<AgeGroup, double>();
             Dictionary<AgeGroup, double> ageGroupsPercentages = new Dictionary<AgeGroup, double>();
@@ -350,6 +514,11 @@ namespace ElectionPredictor
                 ageGroupsPercentages.Add(group, Math.Round(100 * ageGroupsPopulations[group] / total));
             }
 
+            return ageGroupsPercentages;
+        }
+
+        private void ApplyAgeGroups(Dictionary<AgeGroup, double> ageGroupsPercentages)
+        {
             var a1824 = ageGroupsPercentages[AgeGroup.A1824];
             var a2549 = a1824 + ageGroupsPercentages[AgeGroup.A2549];
             var a5064 = a2549 + ageGroupsPercentages[AgeGroup.A5064];
@@ -383,9 +552,7 @@ namespace ElectionPredictor
             }
         }
 
-        private const int NumberToGenerate = 10000;
-
-        private void GenerateBlankVotersInRegions()
+        private void GenerateBlankVotersInRegions(int numberToGenerate)
         {
             Dictionary<Region, double> regionPopulations = new Dictionary<Region, double>();
             Dictionary<Region, double> regionPercentages = new Dictionary<Region, double>();
@@ -411,15 +578,23 @@ namespace ElectionPredictor
             
             foreach (var region in regionPopulations.Keys)
             {
-                regionPercentages.Add(region, Math.Round(NumberToGenerate * regionPopulations[region] / total));
+                regionPercentages.Add(region, Math.Round(numberToGenerate * regionPopulations[region] / total));
             }
 
             foreach (var region in regionPercentages.Keys)
             {
-                for (var n = 0; n < regionPercentages[region]; n += 1)
+                for (var n = 0; n < regionPercentages[region]; n++)
                 {
                     Voters.Add(new Voter { RegionEnum = region });
                 }
+            }
+        }
+
+        private void GenerateBlankVotersInRegion(Region region, int numberToGenerate)
+        {
+            for (var n = 0; n < numberToGenerate; n++)
+            {
+                Voters.Add(new Voter { RegionEnum = region });
             }
         }
     }

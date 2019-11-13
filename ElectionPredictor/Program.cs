@@ -7,36 +7,78 @@ namespace ElectionPredictor
 {
     class Program
     {
+        const int numberOfNationalVotersToGenerate = 100000;
+        const int numberOfLocalVotersToGenerate = 10000;
+
+        const bool LoadInFromFile = false;
+
         static void Main(string[] args)
         {
-            var probabilies = new ProbabiliesManager();
-
-            var voters = new VoterManager();
-            voters.GenerateVoters();
-            voters.GenerateLikelyVotingIntension(probabilies);
-
-            var x = true;
-
-            //Console.WriteLine("Hello World!");
-
-            voters.OutputVotingIntention();
-
             ElectionMLModel model = new ElectionMLModel();
-            model.TrainModel(voters.Voters);
 
-            var testVoter = new Voter
+            if (LoadInFromFile)
             {
-                AgeGroupEnum = AgeGroup.A65Plus,
-                GenderEnum = Gender.Female,
-                PreviousVoteEnum = Party.Con,
-                ReferendumResultEnum = ReferendumResult.Leave,
-                RegionEnum = Region.MidlandsWales,
-                SocialGradeEnum = SocialGrade.ABC1
-            };
+                model.LoadModel();
+            }
+            else
+            { 
+                var probabilies = new ProbabiliesManager();
 
-            model.Predict(testVoter);
+                var voters = new VoterManager();
+                voters.GenerateVotersNationally(numberOfNationalVotersToGenerate);
+                voters.GenerateLikelyVotingIntension(probabilies);
 
-            Console.ReadLine();
+                var x = true;
+
+                //Console.WriteLine("Hello World!");
+
+                voters.OutputNationalVotingIntention();
+
+                model.TrainModel(voters.Voters);
+
+                //var testVoter = new Voter
+                //{
+                //    AgeGroupEnum = AgeGroup.A65Plus,
+                //    GenderEnum = Gender.Female,
+                //    PreviousVoteEnum = Party.Con,
+                //    ReferendumResultEnum = ReferendumResult.Leave,
+                //    RegionEnum = Region.MidlandsWales,
+                //    SocialGradeEnum = SocialGrade.ABC1
+                //};
+
+                //model.Predict(testVoter);
+            }
+
+            var nuneaton = new VoterManager();
+            nuneaton.GenerateVotersForConstituency(ConstituencyProfile.NuneatonExample, 10000);
+            model.PredictVotersIntentions(nuneaton);
+            nuneaton.OutputConstituencyVotingIntention();
+            
+            var batterseaTest = new VoterManager();
+            batterseaTest.GenerateVotersForConstituency(ConstituencyProfile.BatterseaExample, 10000);
+            model.PredictVotersIntentions(batterseaTest);
+            batterseaTest.OutputConstituencyVotingIntention();
+
+            var peterboroughTest = new VoterManager();
+            peterboroughTest.GenerateVotersForConstituency(ConstituencyProfile.PeterboroughExample, 10000);
+            model.PredictVotersIntentions(peterboroughTest);
+            peterboroughTest.OutputConstituencyVotingIntention();
+
+            var canterburyTest = new VoterManager();
+            canterburyTest.GenerateVotersForConstituency(ConstituencyProfile.CanterburyExample, 10000);
+            model.PredictVotersIntentions(canterburyTest);
+            canterburyTest.OutputConstituencyVotingIntention();
+
+            var southamptonItchenTest = new VoterManager();
+            southamptonItchenTest.GenerateVotersForConstituency(ConstituencyProfile.SouthamptonItchenExample, 10000);
+            model.PredictVotersIntentions(southamptonItchenTest);
+            southamptonItchenTest.OutputConstituencyVotingIntention();
+
+            var save = Console.ReadLine();
+            if (!String.IsNullOrWhiteSpace(save))
+            {
+                model.SaveModelAsFile();
+            }
         }
 
 

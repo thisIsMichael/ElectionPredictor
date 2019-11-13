@@ -64,7 +64,7 @@ namespace ElectionPredictor
 
                     Random random = new Random();
                     var rand = random.Next(100);
-                    if (rand > 99 && previousVote == party)
+                    if (rand > 80 && previousVote == party)
                     {
                         score *= 100;
 
@@ -77,11 +77,11 @@ namespace ElectionPredictor
                         }
                         else if (region != Region.Scotland)
                         {
-                            if (rand > 75)
+                            if (rand > 68)
                                 score += AgeProbabilities[age].GetVotingLikelihood(party) * 80;
-                            else if (rand > 70)
+                            else if (rand > 62)
                                 score += GenderProbabilities[gender].GetVotingLikelihood(party) * 80;
-                            else if (rand > 58)
+                            else if (rand > 52)
                                 score += SocialGradeProbabilities[socialGrade].GetVotingLikelihood(party) * 80;
                             else
                                 score += RegionProbabilities[region].GetVotingLikelihood(party) * 80;

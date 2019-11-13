@@ -3,6 +3,7 @@ using Microsoft.ML;
 using Microsoft.ML.Data;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -11,8 +12,12 @@ namespace ElectionPredictor
     public class ElectionMLModel
     {
         private MLContext mlContext;
+        private DataViewSchema dataViewSchema;
         private ITransformer model;
-        private IList<Party> parties;
+        private IList<Party> parties = new List<Party>();
+
+        private static string modelSavePath = Path.Combine(Environment.CurrentDirectory, "Models", "model.zip");
+        private static string modelPartiesSavePath = Path.Combine(Environment.CurrentDirectory, "Models", "modelParties.csv");
 
         public ElectionMLModel()
         {
@@ -45,10 +50,47 @@ namespace ElectionPredictor
 
             model = pipeline.Fit(dataView);
 
+            dataViewSchema = dataView.Schema;
+
             var transformed = model.Transform(dataView);
             var labels = transformed.GetColumn<int>(nameof(Voter.Intention));
             parties = labels.Distinct().Select(p => (Party)p).ToList();
             var x = true;
+        }
+
+        internal void PredictVotersIntentions(VoterManager canterburyTest)
+        {
+            var predictionFunction = mlContext.Model.CreatePredictionEngine<Voter, VoterPrediction>(model);
+
+            foreach (var voter in canterburyTest.Voters)
+            {
+                var prediction = predictionFunction.Predict(voter);
+
+                
+
+                var summedProbabilities = new Dictionary<int, float>();
+                for (int n = 0; n < parties.Count; n++)
+                {
+                    var previous = n == 0 ? 0 : summedProbabilities[n - 1];
+                    summedProbabilities.Add(n, previous + prediction.VotingIntention[n]);
+                }
+
+                Random r = new Random();
+                var prob = r.NextDouble();
+
+                for (int n = 0; n < parties.Count; n++)
+                {
+                    var previous = n == 0 ? 0 : summedProbabilities[n - 1];
+
+                    if (prob >= previous && prob < summedProbabilities[n])
+                    {
+                        voter.IntentionEnum = parties[n];
+                        continue;
+                    }
+                }
+
+                //voter.IntentionEnum = parties[prediction.PredictedLabel];
+            }
         }
 
         //public void Evaluate()
@@ -82,9 +124,45 @@ namespace ElectionPredictor
                 probabilities.Add(parties[n], prediction.VotingIntention[n]);
             }
 
-            Console.WriteLine($"**********************************************************************");
-            Console.WriteLine($"Predicted party: {prediction.VotingIntention}");
-            Console.WriteLine($"**********************************************************************");
+            voter.IntentionEnum = prediction.PredictedParty;
+
+            //Console.WriteLine($"**********************************************************************");
+            //Console.WriteLine($"Predicted party: {prediction.VotingIntention}");
+            //Console.WriteLine($"**********************************************************************");
         }
+
+        public void SaveModelAsFile()
+        {
+            mlContext.Model.Save(model, dataViewSchema, modelSavePath);
+
+            using (var file = File.CreateText(modelPartiesSavePath))
+            {
+                foreach (var party in parties.Select(p => p.ToString()))
+                {
+                    file.WriteLine(string.Join(",", party));
+                }
+            }
+        }
+
+        public void LoadModel()
+        {
+            if (model != null)
+                throw new InvalidOperationException("Cannot load a model over an existing model");
+
+            model = mlContext.Model.Load(modelSavePath, out dataViewSchema);
+
+            using (var reader = new StreamReader(modelPartiesSavePath))
+            {
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+
+                    var party = (Party)Enum.Parse(typeof(Party), line);
+                    parties.Add(party);
+                }
+            }
+        }
+
+        //public Dictionary<Party, float> GetPredictedProbabilities(Voter
     }
 }
