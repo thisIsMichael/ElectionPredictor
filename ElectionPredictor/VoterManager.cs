@@ -28,29 +28,29 @@ namespace ElectionPredictor
 
             foreach (var v in Voters)
             {
-                if (!intensions.ContainsKey(v.Intention.Value))
+                if (!intensions.ContainsKey(v.IntentionEnum.Value))
                 {
-                    intensions.Add(v.Intention.Value, 0);
+                    intensions.Add(v.IntentionEnum.Value, 0);
                 }
 
-                if (!regionalIntentions.ContainsKey(v.Region))
+                if (!regionalIntentions.ContainsKey(v.RegionEnum))
                 {
-                    regionalIntentions.Add(v.Region, new Dictionary<Party, int>());
+                    regionalIntentions.Add(v.RegionEnum, new Dictionary<Party, int>());
                 }
 
-                if (!regionalIntentions[v.Region].ContainsKey(v.Intention.Value))
+                if (!regionalIntentions[v.RegionEnum].ContainsKey(v.IntentionEnum.Value))
                 {
-                    regionalIntentions[v.Region].Add(v.Intention.Value, 0);
+                    regionalIntentions[v.RegionEnum].Add(v.IntentionEnum.Value, 0);
                 }
 
-                if (!regionCount.ContainsKey(v.Region))
+                if (!regionCount.ContainsKey(v.RegionEnum))
                 {
-                    regionCount.Add(v.Region, 0);
+                    regionCount.Add(v.RegionEnum, 0);
                 }
 
-                intensions[v.Intention.Value] += 1;
-                regionalIntentions[v.Region][v.Intention.Value] += 1;
-                regionCount[v.Region] += 1;
+                intensions[v.IntentionEnum.Value] += 1;
+                regionalIntentions[v.RegionEnum][v.IntentionEnum.Value] += 1;
+                regionCount[v.RegionEnum] += 1;
 
             }
 
@@ -82,7 +82,7 @@ namespace ElectionPredictor
         {
             foreach (var v in Voters)
             {
-                v.Intention = probabilies.GetLikeliestParty(v.PreviousVote.Value, v.AgeGroup.Value, v.Gender.Value, v.ReferendumResult.Value, v.Region, v.SocialGrade.Value);
+                v.IntentionEnum = probabilies.GetLikeliestParty(v.PreviousVoteEnum.Value, v.AgeGroupEnum.Value, v.GenderEnum.Value, v.ReferendumResultEnum.Value, v.RegionEnum, v.SocialGradeEnum.Value);
             }
         }
 
@@ -119,11 +119,11 @@ namespace ElectionPredictor
 
                 if (r <= malePercent)
                 {
-                    v.Gender = Gender.Male;
+                    v.GenderEnum = Gender.Male;
                 }
                 else
                 {
-                    v.Gender = Gender.Female;
+                    v.GenderEnum = Gender.Female;
                 }
             }
         }
@@ -188,7 +188,7 @@ namespace ElectionPredictor
             {
                 var r = rand.Next(100);
 
-                var thisRegionPercentages = previousVotePercentages[v.Region];
+                var thisRegionPercentages = previousVotePercentages[v.RegionEnum];
 
                 bool decidedVote = false;
                 foreach (var party in thisRegionPercentages.Keys)
@@ -200,7 +200,7 @@ namespace ElectionPredictor
 
                     if (r <= thisRegionPercentages[party])
                     {
-                        v.PreviousVote = party;
+                        v.PreviousVoteEnum = party;
                         decidedVote = true;
                     }
                 }
@@ -256,13 +256,13 @@ namespace ElectionPredictor
             {
                 var r = rand.Next(100);
 
-                if (r <= percentageLeave[v.Region])
+                if (r <= percentageLeave[v.RegionEnum])
                 {
-                    v.ReferendumResult = ReferendumResult.Leave;
+                    v.ReferendumResultEnum = ReferendumResult.Leave;
                 }
                 else
                 {
-                    v.ReferendumResult = ReferendumResult.Remain;
+                    v.ReferendumResultEnum = ReferendumResult.Remain;
                 }
             }
         }
@@ -310,13 +310,13 @@ namespace ElectionPredictor
             {
                 var r = rand.Next(100);
 
-                if (r <= percentageABC1[v.Region])
+                if (r <= percentageABC1[v.RegionEnum])
                 {
-                    v.SocialGrade = SocialGrade.ABC1;
+                    v.SocialGradeEnum = SocialGrade.ABC1;
                 }
                 else
                 {
-                    v.SocialGrade = SocialGrade.C2DE;
+                    v.SocialGradeEnum = SocialGrade.C2DE;
                 }
             }
         }
@@ -362,19 +362,19 @@ namespace ElectionPredictor
 
                 if (r <= a1824)
                 {
-                    v.AgeGroup = AgeGroup.A1824;
+                    v.AgeGroupEnum = AgeGroup.A1824;
                 }
                 else if (r <= a2549)
                 {
-                    v.AgeGroup = AgeGroup.A2549;
+                    v.AgeGroupEnum = AgeGroup.A2549;
                 }
                 else if (r <= a5064)
                 {
-                    v.AgeGroup = AgeGroup.A5064;
+                    v.AgeGroupEnum = AgeGroup.A5064;
                 }
                 else if (r <= a65Plus)
                 {
-                    v.AgeGroup = AgeGroup.A65Plus;
+                    v.AgeGroupEnum = AgeGroup.A65Plus;
                 }
                 else
                 {
@@ -382,6 +382,8 @@ namespace ElectionPredictor
                 }
             }
         }
+
+        private const int NumberToGenerate = 10000;
 
         private void GenerateBlankVotersInRegions()
         {
@@ -409,14 +411,14 @@ namespace ElectionPredictor
             
             foreach (var region in regionPopulations.Keys)
             {
-                regionPercentages.Add(region, Math.Round(10000 * regionPopulations[region] / total));
+                regionPercentages.Add(region, Math.Round(NumberToGenerate * regionPopulations[region] / total));
             }
 
             foreach (var region in regionPercentages.Keys)
             {
                 for (var n = 0; n < regionPercentages[region]; n += 1)
                 {
-                    Voters.Add(new Voter { Region = region });
+                    Voters.Add(new Voter { RegionEnum = region });
                 }
             }
         }

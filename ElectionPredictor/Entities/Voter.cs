@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.ML.Data;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,18 +7,126 @@ namespace ElectionPredictor.Entities
 {
     public class Voter
     {
-        public AgeGroup? AgeGroup { get; set; }
+        private const int NotSet = -1;
 
-        public Gender? Gender { get; set; }
+        [NoColumn]
+        public AgeGroup? AgeGroupEnum;
+        //{
+        //    get => AgeGroup == NotSet ? (AgeGroup?)null : (AgeGroup)AgeGroup;
+        //    set
+        //    {
+        //        if (value.HasValue)
+        //        {
+        //            AgeGroup = (int)value;
+        //        }
+        //        else
+        //        {
+        //            AgeGroup = NotSet;
+        //        }
+        //    }
+        //}
 
-        public Party? Intention { get; set; }
+        [NoColumn]
+        public Gender? GenderEnum;
+        //{
+        //    get => Gender == NotSet ? (Gender?)null : (Gender)Gender;
+        //    set
+        //    {
+        //        if (value.HasValue)
+        //        {
+        //            Gender = (int)value;
+        //        }
+        //        else
+        //        {
+        //            Gender = NotSet;
+        //        }
+        //    }
+        //}
 
-        public Party? PreviousVote { get; set; }
+        [NoColumn]
+        public Party? IntentionEnum;
+        //{
+        //    get => Intention == NotSet ? (Party?)null : (Party)Intention;
+        //    set
+        //    {
+        //        if (value.HasValue)
+        //        {
+        //            Intention = (int)value;
+        //        }
+        //        else
+        //        {
+        //            Intention = NotSet;
+        //        }
+        //    }
+        //}
 
-        public ReferendumResult? ReferendumResult { get; set; }
+        [NoColumn]
+        public Party? PreviousVoteEnum;
+        //{
+        //    get => PreviousVote == NotSet ? (Party?)null : (Party)PreviousVote;
+        //    set
+        //    {
+        //        if (value.HasValue)
+        //        {
+        //            PreviousVote = (int)value;
+        //        }
+        //        else
+        //        {
+        //            PreviousVote = NotSet;
+        //        }
+        //    }
+        //}
 
-        public Region Region { get; set; }
+        [NoColumn]
+        public ReferendumResult? ReferendumResultEnum;
+        //{
+        //    get => ReferendumResult == NotSet ? (ReferendumResult?)null : (ReferendumResult)ReferendumResult;
+        //    set
+        //    {
+        //        if (value.HasValue)
+        //        {
+        //            ReferendumResult = (int)value;
+        //        }
+        //        else
+        //        {
+        //            ReferendumResult = NotSet;
+        //        }
+        //    }
+        //}
 
-        public SocialGrade? SocialGrade { get; set; }
+        [NoColumn]
+        public Region RegionEnum;
+        //{
+        //    get => (Region)Region;
+        //    set
+        //    {
+        //        Region = (int)value;
+        //    }
+        //}
+
+        [NoColumn]
+        public SocialGrade? SocialGradeEnum;
+        //{
+        //    get => SocialGrade == NotSet ? (SocialGrade?)null : (SocialGrade)SocialGrade;
+        //    set
+        //    {
+        //        if (value.HasValue)
+        //        {
+        //            SocialGrade = (int)value;
+        //        }
+        //        else
+        //        {
+        //            SocialGrade = NotSet;
+        //        }
+        //    }
+        //}
+
+        public int AgeGroup => (int)AgeGroupEnum;
+        public int Gender => (int)GenderEnum;
+        public int Intention => (int)IntentionEnum;
+        public int PreviousVote => (int)PreviousVoteEnum;
+        public int ReferendumResult => (int)ReferendumResultEnum;
+        public int Region => (int)RegionEnum;
+        public int SocialGrade => (int)SocialGradeEnum;
     }
 }

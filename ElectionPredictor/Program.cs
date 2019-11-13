@@ -21,6 +21,20 @@ namespace ElectionPredictor
 
             voters.OutputVotingIntention();
 
+            ElectionMLModel model = new ElectionMLModel();
+            model.TrainModel(voters.Voters);
+
+            var testVoter = new Voter
+            {
+                AgeGroupEnum = AgeGroup.A65Plus,
+                GenderEnum = Gender.Female,
+                PreviousVoteEnum = Party.Con,
+                ReferendumResultEnum = ReferendumResult.Leave,
+                RegionEnum = Region.MidlandsWales,
+                SocialGradeEnum = SocialGrade.ABC1
+            };
+
+            model.Predict(testVoter);
 
             Console.ReadLine();
         }
