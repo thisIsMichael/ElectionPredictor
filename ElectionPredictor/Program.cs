@@ -10,11 +10,13 @@ namespace ElectionPredictor
         const int numberOfNationalVotersToGenerate = 100000;
         const int numberOfLocalVotersToGenerate = 10000;
 
-        const bool LoadInFromFile = false;
+        const bool LoadInFromFile = true;
 
         static void Main(string[] args)
         {
-            ElectionMLModel model = new ElectionMLModel();
+            Election electionToPredict = Election.e2017;
+
+            /*ElectionMLModel model = new ElectionMLModel();
 
             if (LoadInFromFile)
             {
@@ -50,37 +52,37 @@ namespace ElectionPredictor
             }
             
             var nuneaton = new VoterManager();
-            nuneaton.GenerateVotersForConstituency(ConstituencyProfile.NuneatonExample, 10000);
+            nuneaton.GenerateVotersForConstituency(Constituency.NuneatonExample, 10000);
             model.PredictVotersIntentions(nuneaton);
             nuneaton.OutputConstituencyVotingIntention();
             
             var batterseaTest = new VoterManager();
-            batterseaTest.GenerateVotersForConstituency(ConstituencyProfile.BatterseaExample, 10000);
+            batterseaTest.GenerateVotersForConstituency(Constituency.BatterseaExample, 10000);
             model.PredictVotersIntentions(batterseaTest);
             batterseaTest.OutputConstituencyVotingIntention();
 
             var peterboroughTest = new VoterManager();
-            peterboroughTest.GenerateVotersForConstituency(ConstituencyProfile.PeterboroughExample, 10000);
+            peterboroughTest.GenerateVotersForConstituency(Constituency.PeterboroughExample, 10000);
             model.PredictVotersIntentions(peterboroughTest);
             peterboroughTest.OutputConstituencyVotingIntention();
 
             var canterburyTest = new VoterManager();
-            canterburyTest.GenerateVotersForConstituency(ConstituencyProfile.CanterburyExample, 10000);
+            canterburyTest.GenerateVotersForConstituency(Constituency.CanterburyExample, 10000);
             model.PredictVotersIntentions(canterburyTest);
             canterburyTest.OutputConstituencyVotingIntention();
 
             var southamptonItchenTest = new VoterManager();
-            southamptonItchenTest.GenerateVotersForConstituency(ConstituencyProfile.SouthamptonItchenExample, 10000);
+            southamptonItchenTest.GenerateVotersForConstituency(Constituency.SouthamptonItchenExample, 10000);
             model.PredictVotersIntentions(southamptonItchenTest);
             southamptonItchenTest.OutputConstituencyVotingIntention();
             
             var yorkCentralTest = new VoterManager();
-            yorkCentralTest.GenerateVotersForConstituency(ConstituencyProfile.YorkCentralExample, 10000);
+            yorkCentralTest.GenerateVotersForConstituency(Constituency.YorkCentralExample, 10000);
             model.PredictVotersIntentions(yorkCentralTest);
             yorkCentralTest.OutputConstituencyVotingIntention();
 
             var yorkOuterTest = new VoterManager();
-            yorkOuterTest.GenerateVotersForConstituency(ConstituencyProfile.YorkOuterExample, 10000);
+            yorkOuterTest.GenerateVotersForConstituency(Constituency.YorkOuterExample, 10000);
             model.PredictVotersIntentions(yorkOuterTest);
             yorkOuterTest.OutputConstituencyVotingIntention();
 
@@ -88,7 +90,9 @@ namespace ElectionPredictor
             if (!String.IsNullOrWhiteSpace(save))
             {
                 model.SaveModelAsFile();
-            }
+            }*/
+
+            ConstituencyManager.GetConstituencies(electionToPredict);
         }
 
 

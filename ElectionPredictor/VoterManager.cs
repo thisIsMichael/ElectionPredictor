@@ -35,7 +35,7 @@ namespace ElectionPredictor
             ApplyPreviousVoteByRegion(LoadPreviousVotePercentagesByRegion());
         }
 
-        public void GenerateVotersForConstituency(ConstituencyProfile constituency, int numberOfVoters)
+        public void GenerateVotersForConstituency(Constituency constituency, int numberOfVoters)
         {
             if (votersGenerated)
                 throw new InvalidOperationException("Voters already generated for this Voter Manager");

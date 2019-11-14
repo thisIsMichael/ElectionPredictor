@@ -4,9 +4,11 @@ using System.Text;
 
 namespace ElectionPredictor.Entities
 {
-    public class ConstituencyProfile
+    public class Constituency
     {
         public string Name;
+
+        public string ONSReference;
 
         public Dictionary<AgeGroup, double> Ages;
 
@@ -18,11 +20,11 @@ namespace ElectionPredictor.Entities
 
         public Dictionary<SocialGrade, double> SocialGrades;
 
-        public static ConstituencyProfile CanterburyExample
+        public static Constituency CanterburyExample
         {
             get
             {
-                return new ConstituencyProfile
+                return new Constituency
                 {
                     Name = "Canterbury (expected Lab)",
                     Ages = new Dictionary<AgeGroup, double>()
@@ -56,11 +58,11 @@ namespace ElectionPredictor.Entities
             }
         }
 
-        public static ConstituencyProfile BatterseaExample
+        public static Constituency BatterseaExample
         {
             get
             {
-                return new ConstituencyProfile
+                return new Constituency
                 {
                     Name = "Battersea (expected Lab)",
                     Ages = new Dictionary<AgeGroup, double>()
@@ -93,11 +95,11 @@ namespace ElectionPredictor.Entities
             }
         }
 
-        public static ConstituencyProfile MorayExample
+        public static Constituency MorayExample
         {
             get
             {
-                return new ConstituencyProfile
+                return new Constituency
                 {
                     Name = "Moray (expected Con)",
                     Ages = new Dictionary<AgeGroup, double>()
@@ -131,11 +133,11 @@ namespace ElectionPredictor.Entities
             }
         }
 
-        public static ConstituencyProfile NuneatonExample
+        public static Constituency NuneatonExample
         {
             get
             {
-                return new ConstituencyProfile
+                return new Constituency
                 {
                     Name = "Nuneaton (expected Con)",
                     Ages = new Dictionary<AgeGroup, double>()
@@ -169,11 +171,11 @@ namespace ElectionPredictor.Entities
             }
         }
 
-        public static ConstituencyProfile PeterboroughExample
+        public static Constituency PeterboroughExample
         {
             get
             {
-                return new ConstituencyProfile
+                return new Constituency
                 {
                     Name = "Peterborough (expected Lab)",
                     Ages = new Dictionary<AgeGroup, double>()
@@ -207,11 +209,11 @@ namespace ElectionPredictor.Entities
             }
         }
 
-        public static ConstituencyProfile SouthamptonItchenExample
+        public static Constituency SouthamptonItchenExample
         {
             get
             {
-                return new ConstituencyProfile
+                return new Constituency
                 {
                     Name = "Southampton Itchen (expected Con)",
                     Ages = new Dictionary<AgeGroup, double>()
@@ -245,11 +247,11 @@ namespace ElectionPredictor.Entities
             }
         }
 
-        public static ConstituencyProfile YorkOuterExample
+        public static Constituency YorkOuterExample
         {
             get
             {
-                return new ConstituencyProfile
+                return new Constituency
                 {
                     Name = "York Outer (expected Con)",
                     Ages = new Dictionary<AgeGroup, double>()
@@ -282,11 +284,11 @@ namespace ElectionPredictor.Entities
             }
         }
 
-        public static ConstituencyProfile YorkCentralExample
+        public static Constituency YorkCentralExample
         {
             get
             {
-                return new ConstituencyProfile
+                return new Constituency
                 {
                     Name = "York Central (expected Lab)",
                     Ages = new Dictionary<AgeGroup, double>()
