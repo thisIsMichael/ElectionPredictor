@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace ElectionPredictor
@@ -25,7 +26,7 @@ namespace ElectionPredictor
 
             ApplyGender(LoadNationalGenderMalePercentage());
             
-            ApplyAgeGroups(LoadNationalAgeGroupPercentages());
+            ApplyAgeGroups(LoadNationalAgeGroups());
 
             ApplySocialGroupsByRegion(LoadPercentageABCSocialGradeByRegion());
 
@@ -485,10 +486,9 @@ namespace ElectionPredictor
             }
         }
 
-        private Dictionary<AgeGroup, double> LoadNationalAgeGroupPercentages()
+        private Dictionary<AgeGroup, double> LoadNationalAgeGroups()
         {
             Dictionary<AgeGroup, double> ageGroupsPopulations = new Dictionary<AgeGroup, double>();
-            Dictionary<AgeGroup, double> ageGroupsPercentages = new Dictionary<AgeGroup, double>();
 
             int total = 0;
 
@@ -509,16 +509,63 @@ namespace ElectionPredictor
                 }
             }
 
-            foreach (var group in ageGroupsPopulations.Keys)
+            return ageGroupsPopulations;
+        }
+
+        private Dictionary<AgeGroup, double> FindPercentagesOfAgeGroups(Dictionary<AgeGroup, double> ageGroupsPopulations)
+        {
+            Dictionary<AgeGroup, double> ageGroupsPopulationsTurnout = ApplyTurnout(ageGroupsPopulations);
+            Dictionary<AgeGroup, double> ageGroupsPercentages = new Dictionary<AgeGroup, double>();
+
+            var total = ageGroupsPopulationsTurnout.Values.Sum();
+
+            foreach (var group in ageGroupsPopulationsTurnout.Keys)
             {
-                ageGroupsPercentages.Add(group, Math.Round(100 * ageGroupsPopulations[group] / total));
+                ageGroupsPercentages.Add(group, 100 * ageGroupsPopulationsTurnout[group] / total);
             }
 
             return ageGroupsPercentages;
         }
 
-        private void ApplyAgeGroups(Dictionary<AgeGroup, double> ageGroupsPercentages)
+        private Dictionary<AgeGroup, double> ApplyTurnout(Dictionary<AgeGroup, double> ageGroupsPopulations)
         {
+            Dictionary<AgeGroup, double> ageGroupsWithTurnout = new Dictionary<AgeGroup, double>();
+
+            foreach (var group in ageGroupsPopulations.Keys)
+            {
+                ageGroupsWithTurnout[group] = ageGroupsPopulations[group] * TurnOutByAgeGroup(group);
+            }
+
+            return ageGroupsWithTurnout;
+        }
+
+        private double TurnOutByAgeGroup(AgeGroup group)
+        {
+            //return 1;
+
+            switch(group)
+            {
+                case AgeGroup.A1824:
+                    return 0.58;
+
+                case AgeGroup.A2549:
+                    return 0.625;
+
+                case AgeGroup.A5064:
+                    return 0.74;
+
+                case AgeGroup.A65Plus:
+                    return 0.805;
+
+                default:
+                    throw new Exception();
+            }
+        }
+
+        private void ApplyAgeGroups(Dictionary<AgeGroup, double> ageGroupsPopulations)
+        {
+            var ageGroupsPercentages = FindPercentagesOfAgeGroups(ageGroupsPopulations);
+
             var a1824 = ageGroupsPercentages[AgeGroup.A1824];
             var a2549 = a1824 + ageGroupsPercentages[AgeGroup.A2549];
             var a5064 = a2549 + ageGroupsPercentages[AgeGroup.A5064];
