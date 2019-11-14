@@ -24,7 +24,7 @@ namespace ElectionPredictor.Entities
             {
                 return new ConstituencyProfile
                 {
-                    Name = "Canterbury",
+                    Name = "Canterbury (expected Lab)",
                     Ages = new Dictionary<AgeGroup, double>()
                     {
                         { AgeGroup.A1824, 23839 },
@@ -62,7 +62,7 @@ namespace ElectionPredictor.Entities
             {
                 return new ConstituencyProfile
                 {
-                    Name = "Battersea",
+                    Name = "Battersea (expected Lab)",
                     Ages = new Dictionary<AgeGroup, double>()
                     {
                         { AgeGroup.A1824, 8990 },
@@ -99,7 +99,7 @@ namespace ElectionPredictor.Entities
             {
                 return new ConstituencyProfile
                 {
-                    Name = "Moray",
+                    Name = "Moray (expected Con)",
                     Ages = new Dictionary<AgeGroup, double>()
                     {
                         { AgeGroup.A1824, 7246 },
@@ -137,7 +137,7 @@ namespace ElectionPredictor.Entities
             {
                 return new ConstituencyProfile
                 {
-                    Name = "Nuneaton",
+                    Name = "Nuneaton (expected Con)",
                     Ages = new Dictionary<AgeGroup, double>()
                     {
                         { AgeGroup.A1824, 7191 },
@@ -175,7 +175,7 @@ namespace ElectionPredictor.Entities
             {
                 return new ConstituencyProfile
                 {
-                    Name = "Peterborough",
+                    Name = "Peterborough (expected Lab)",
                     Ages = new Dictionary<AgeGroup, double>()
                     {
                         { AgeGroup.A1824, 9367 },
@@ -213,7 +213,7 @@ namespace ElectionPredictor.Entities
             {
                 return new ConstituencyProfile
                 {
-                    Name = "Southampton Itchen",
+                    Name = "Southampton Itchen (expected Con)",
                     Ages = new Dictionary<AgeGroup, double>()
                     {
                         { AgeGroup.A1824, 16289 },
@@ -240,6 +240,81 @@ namespace ElectionPredictor.Entities
                     {
                         { SocialGrade.ABC1, 51.5 },
                         { SocialGrade.C2DE, 48.5 }
+                    }
+                };
+            }
+        }
+
+        public static ConstituencyProfile YorkOuterExample
+        {
+            get
+            {
+                return new ConstituencyProfile
+                {
+                    Name = "York Outer (expected Con)",
+                    Ages = new Dictionary<AgeGroup, double>()
+                    {
+                        { AgeGroup.A1824, 10396 },
+                        {AgeGroup.A2549, 26487 },
+                        { AgeGroup.A5064, 19090 },
+                        { AgeGroup.A65Plus, 23223 }
+                    },
+                    ReferendumResults = new Dictionary<ReferendumResult, double>()
+                    {
+                        { ReferendumResult.Leave, 42 },
+                        {ReferendumResult.Remain, 58 }
+                    },
+                    PreviousVote = new Dictionary<Party, double>()
+                    {
+                        { Party.Con, 49.1 },
+                        { Party.Lab, 24.8 },
+                        { Party.UKIP, 9.7 },
+                        { Party.LibDem, 11.6 },
+                        { Party.Green, 4.7 }
+                    },
+                    Region = Region.North,
+                    SocialGrades = new Dictionary<SocialGrade, double>()
+                    {
+                        { SocialGrade.ABC1, 59.7 },
+                        { SocialGrade.C2DE, 40.3 }
+                    }
+                };
+            }
+        }
+
+        public static ConstituencyProfile YorkCentralExample
+        {
+            get
+            {
+                return new ConstituencyProfile
+                {
+                    Name = "York Central (expected Lab)",
+                    Ages = new Dictionary<AgeGroup, double>()
+                    {
+                        { AgeGroup.A1824, 21411 },
+                        {AgeGroup.A2549, 40258 },
+                        { AgeGroup.A5064, 17389 },
+                        { AgeGroup.A65Plus, 15067 }
+                    },
+                    ReferendumResults = new Dictionary<ReferendumResult, double>()
+                    {
+                        { ReferendumResult.Leave, 42 },
+                        {ReferendumResult.Remain, 58 }
+                    },
+                    PreviousVote = new Dictionary<Party, double>()
+                    {
+                        { Party.Con, 28.3 },
+                        { Party.Lab, 42.4 },
+                        { Party.UKIP, 10.1 },
+                        { Party.LibDem, 8 },
+                        { Party.Green, 10 },
+                        { Party.Other, 1.2 }
+                    },
+                    Region = Region.North,
+                    SocialGrades = new Dictionary<SocialGrade, double>()
+                    {
+                        { SocialGrade.ABC1, 59.7 },
+                        { SocialGrade.C2DE, 40.3 }
                     }
                 };
             }
