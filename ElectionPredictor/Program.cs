@@ -48,7 +48,7 @@ namespace ElectionPredictor
 
                 //model.Predict(testVoter);
             }
-
+            
             var nuneaton = new VoterManager();
             nuneaton.GenerateVotersForConstituency(ConstituencyProfile.NuneatonExample, 10000);
             model.PredictVotersIntentions(nuneaton);
@@ -73,6 +73,16 @@ namespace ElectionPredictor
             southamptonItchenTest.GenerateVotersForConstituency(ConstituencyProfile.SouthamptonItchenExample, 10000);
             model.PredictVotersIntentions(southamptonItchenTest);
             southamptonItchenTest.OutputConstituencyVotingIntention();
+            
+            var yorkCentralTest = new VoterManager();
+            yorkCentralTest.GenerateVotersForConstituency(ConstituencyProfile.YorkCentralExample, 10000);
+            model.PredictVotersIntentions(yorkCentralTest);
+            yorkCentralTest.OutputConstituencyVotingIntention();
+
+            var yorkOuterTest = new VoterManager();
+            yorkOuterTest.GenerateVotersForConstituency(ConstituencyProfile.YorkOuterExample, 10000);
+            model.PredictVotersIntentions(yorkOuterTest);
+            yorkOuterTest.OutputConstituencyVotingIntention();
 
             var save = Console.ReadLine();
             if (!String.IsNullOrWhiteSpace(save))
