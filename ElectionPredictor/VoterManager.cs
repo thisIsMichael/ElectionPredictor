@@ -60,7 +60,6 @@ namespace ElectionPredictor
         internal void OutputConstituencyVotingIntention()
         {
             Dictionary<Party, int> intensions = new Dictionary<Party, int>();
-            Dictionary<Region, int> regionCount = new Dictionary<Region, int>();
 
             foreach (var v in Voters)
             {
@@ -72,7 +71,9 @@ namespace ElectionPredictor
                 intensions[v.IntentionEnum.Value] += 1;
             }
 
-            Console.WriteLine($"Intention in {location}");
+            var winner = intensions.OrderByDescending(party => party.Value).First().Key;
+
+            Console.WriteLine($"Constituency: {location}. Winner: {winner.ToString()}");
             foreach (var party in intensions.Keys)
             {
                 var count = 100d * intensions[party] / Voters.Count;
