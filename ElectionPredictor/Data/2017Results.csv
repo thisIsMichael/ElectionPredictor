@@ -1,0 +1,573 @@
+Aberavon,Lab,Lab
+Aberconwy,Con,Con
+Aldershot,Con,Con
+Aldridge-Brownhills,Con,Con
+Altrincham and Sale West,Con,Con
+Alyn and Deeside,Con,Lab
+Amber Valley,Con,Con
+Arfon,Con,Lab
+Arundel and South Downs,Con,Con
+Ashfield,Con,Lab
+Ashford,Con,Con
+Ashton-under-Lyne,Lab,Lab
+Aylesbury,Con,Con
+Banbury,Con,Con
+Barking,Lab,Lab
+Barnsley Central,Lab,Lab
+Barnsley East,Lab,Lab
+Barrow and Furness,Con,Lab
+Basildon and Billericay,Con,Con
+Basingstoke,Con,Con
+Bassetlaw,Con,Lab
+Bath,Con,Con
+Batley and Spen,Lab,Lab
+Battersea,Lab,Lab
+Beaconsfield,Con,Con
+Beckenham,Con,Lab
+Bedford,Con,Lab
+Bermondsey and Old Southwark,Lab,Lab
+Berwick-upon-Tweed,Con,Con
+Bethnal Green and Bow,Lab,Lab
+Beverley and Holderness,Con,Con
+Bexhill and Battle,Con,Con
+Bexleyheath and Crayford,Lab,Lab
+Birkenhead,Lab,Lab
+Birmingham Edgbaston,Con,Lab
+Birmingham Erdington,Con,Lab
+Birmingham Hall Green,Lab,Lab
+Birmingham Hodge Hill,Lab,Lab
+Birmingham Ladywood,Lab,Lab
+Birmingham Northfield,Con,Lab
+Birmingham Perry Barr,Lab,Lab
+Birmingham Selly Oak,Lab,Lab
+Birmingham Yardley,Con,Lab
+Bishop Auckland,Con,Lab
+Blackburn,Lab,Lab
+Blackley and Broughton,Lab,Lab
+Blackpool North and Cleveleys,Con,Con
+Blackpool South,Con,Lab
+Blaenau Gwent,Lab,Lab
+Blaydon,Lab,Lab
+Blyth Valley,Lab,Lab
+Bognor Regis and Littlehampton,Con,Con
+Bolsover,Con,Lab
+Bolton North East,Con,Lab
+Bolton South East,Lab,Lab
+Bolton West,Con,Lab
+Bootle,Lab,Lab
+Boston and Skegness,Con,Con
+Bosworth,Con,Con
+Bournemouth East,Con,Con
+Bournemouth West,Con,Con
+Bracknell,Con,Con
+Bradford East,Lab,Lab
+Bradford South,Lab,Lab
+Bradford West,Lab,Lab
+Braintree,Con,Con
+Brecon and Radnorshire,Con,Con
+Brent Central,Lab,Lab
+Brent North,Lab,Lab
+Brentford and Isleworth,Lab,Lab
+Brentwood and Ongar,Con,Con
+Bridgend,Con,Lab
+Bridgwater and West Somerset,Con,Con
+Brigg and Goole,Con,Con
+Brighton Kemptown,Con,Con
+Brighton Pavilion,Con,Con
+Bristol East,Con,Con
+Bristol North West,Con,Con
+Bristol South,Con,Con
+Bristol West,Lab,Lab
+Broadland,Con,Con
+Bromley and Chislehurst,Con,Lab
+Bromsgrove,Con,Con
+Broxbourne,Con,Con
+Broxtowe,Con,Lab
+Buckingham,Con,Con
+Burnley,Con,Lab
+Burton,Con,Con
+Bury North,Con,Lab
+Bury South,Lab,Lab
+Bury St Edmunds,Con,Con
+Caerphilly,Con,Lab
+Calder Valley,Con,Lab
+Camberwell and Peckham,Lab,Lab
+Camborne and Redruth,Con,Con
+Cambridge,Lab,Lab
+Cannock Chase,Con,Con
+Canterbury,Con,Con
+Cardiff Central,Lab,Lab
+Cardiff North,Con,Lab
+Cardiff South and Penarth,Con,Lab
+Cardiff West,Con,Lab
+Carlisle,Con,Lab
+Carmarthen East and Dinefwr,Con,Lab
+Carmarthen West and South Pembrokeshire,Con,Con
+Carshalton and Wallington,Con,Lab
+Castle Point,Con,Con
+Central Devon,Con,Con
+Central Suffolk and North Ipswich,Con,Con
+Ceredigion,Con,Lab
+Charnwood,Con,Con
+Chatham and Aylesford,Con,Con
+Cheadle,Con,Con
+Chelmsford,Con,Con
+Chelsea and Fulham,Lab,Lab
+Cheltenham,Con,Con
+Chesham and Amersham,Con,Con
+Chesterfield,Con,Lab
+Chichester,Con,Con
+Chingford and Woodford Green,Lab,Lab
+Chippenham,Con,Con
+Chipping Barnet,Lab,Lab
+Chorley,Lab,Lab
+Christchurch,Con,Con
+Cities of London and Westminster,Lab,Lab
+City of Chester,Lab,Lab
+City of Durham,Lab,Lab
+Clacton,Con,Con
+Cleethorpes,Con,Con
+Clwyd South,Con,Lab
+Clwyd West,Con,Con
+Colchester,Con,Con
+Colne Valley,Con,Lab
+Congleton,Con,Con
+Copeland,Con,Lab
+Corby,Con,Lab
+Coventry North East,Lab,Lab
+Coventry North West,Con,Lab
+Coventry South,Con,Lab
+Crawley,Con,Con
+Crewe and Nantwich,Con,Lab
+Croydon Central,Lab,Lab
+Croydon North,Lab,Lab
+Croydon South,Lab,Lab
+Cynon Valley,Lab,Lab
+Dagenham and Rainham,Lab,Lab
+Darlington,Con,Lab
+Dartford,Con,Con
+Daventry,Con,Con
+Delyn,Con,Lab
+Denton and Reddish,Lab,Lab
+Derby North,Con,Lab
+Derby South,Lab,Lab
+Derbyshire Dales,Con,Con
+Devizes,Con,Con
+Dewsbury,Con,Lab
+Don Valley,Lab,Lab
+Doncaster Central,Lab,Lab
+Doncaster North,Lab,Lab
+Dover,Con,Con
+Dudley North,Con,Lab
+Dudley South,Con,Con
+Dulwich and West Norwood,Lab,Lab
+Dwyfor Meirionnydd,Con,Con
+Ealing Central and Acton,Lab,Lab
+Ealing North,Lab,Lab
+Ealing Southall,Lab,Lab
+Easington,Lab,Lab
+East Devon,Con,Con
+East Ham,Lab,Lab
+East Hampshire,Con,Con
+East Surrey,Con,Con
+East Worthing and Shoreham,Con,Con
+East Yorkshire,Con,Con
+Eastbourne,Con,Con
+Eastleigh,Con,Con
+Eddisbury,Con,Con
+Edmonton,Lab,Lab
+Ellesmere Port and Neston,Con,Lab
+Elmet and Rothwell,Con,Con
+Eltham,Lab,Lab
+Enfield North,Lab,Lab
+Enfield Southgate,Lab,Lab
+Epping Forest,Con,Con
+Epsom and Ewell,Con,Con
+Erewash,Con,Con
+Erith and Thamesmead,Lab,Lab
+Esher and Walton,Con,Con
+Exeter,Con,Con
+Fareham,Con,Con
+Faversham and Mid Kent,Con,Con
+Feltham and Heston,Lab,Lab
+Filton and Bradley Stoke,Con,Con
+Finchley and Golders Green,Lab,Lab
+Folkestone and Hythe,Con,Con
+Forest of Dean,Con,Con
+Fylde,Con,Con
+Gainsborough,Con,Con
+Garston and Halewood,Lab,Lab
+Gateshead,Lab,Lab
+Gedling,Con,Lab
+Gillingham and Rainham,Con,Con
+Gloucester,Con,Con
+Gosport,Con,Con
+Gower,Con,Lab
+Grantham and Stamford,Con,Con
+Gravesham,Con,Con
+Great Grimsby,Con,Lab
+Great Yarmouth,Con,Con
+Greenwich and Woolwich,Lab,Lab
+Guildford,Con,Con
+Hackney North and Stoke Newington,Lab,Lab
+Hackney South and Shoreditch,Lab,Lab
+Halesowen and Rowley Regis,Con,Con
+Halifax,Con,Lab
+Haltemprice and Howden,Con,Con
+Halton,Lab,Lab
+Hammersmith,Lab,Lab
+Hampstead and Kilburn,Lab,Lab
+Harborough,Con,Con
+Harlow,Con,Con
+Harrogate and Knaresborough,Con,Con
+Harrow East,Lab,Lab
+Harrow West,Lab,Lab
+Hartlepool,Con,Lab
+Harwich and North Essex,Con,Con
+Hastings and Rye,Con,Con
+Havant,Con,Con
+Hayes and Harlington,Lab,Lab
+Hazel Grove,Con,Con
+Hemel Hempstead,Con,Con
+Hemsworth,Lab,Lab
+Hendon,Lab,Lab
+Henley,Con,Con
+Hereford and South Herefordshire,Con,Con
+Hertford and Stortford,Con,Con
+Hertsmere,Con,Con
+Hexham,Con,Con
+Heywood and Middleton,Lab,Lab
+High Peak,Con,Con
+Hitchin and Harpenden,Con,Con
+Holborn and St Pancras,Lab,Lab
+Hornchurch and Upminster,Con,Con
+Hornsey and Wood Green,Lab,Lab
+Horsham,Con,Con
+Houghton and Sunderland South,Lab,Lab
+Hove,Con,Con
+Huddersfield,Lab,Lab
+Huntingdon,Con,Con
+Hyndburn,Con,Lab
+Ilford North,Lab,Lab
+Ilford South,Lab,Lab
+Ipswich,Con,Lab
+Isle of Wight,Con,Con
+Islington North,Lab,Lab
+Islington South and Finsbury,Lab,Lab
+Islwyn,Lab,Lab
+Jarrow,Lab,Lab
+Keighley,Con,Lab
+Kenilworth and Southam,Con,Con
+Kensington,Lab,Lab
+Kettering,Con,Con
+Kingston and Surbiton,Lab,Lab
+Kingston upon Hull East,Lab,Lab
+Kingston upon Hull North,Lab,Lab
+Kingston upon Hull West and Hessle,Lab,Lab
+Kingswood,Con,Con
+Knowsley,Lab,Lab
+Lancaster and Fleetwood,Lab,Lab
+Leeds Central,Lab,Lab
+Leeds East,Lab,Lab
+Leeds North East,Lab,Lab
+Leeds North West,Lab,Lab
+Leeds West,Lab,Lab
+Leicester East,Lab,Lab
+Leicester South,Lab,Lab
+Leicester West,Lab,Lab
+Leigh,Lab,Lab
+Lewes,Con,Con
+Lewisham East,Lab,Lab
+Lewisham West and Penge,Lab,Lab
+Lewisham Deptford,Lab,Lab
+Leyton and Wanstead,Lab,Lab
+Lichfield,Con,Con
+Lincoln,Con,Lab
+Liverpool Riverside,Lab,Lab
+Liverpool Walton,Lab,Lab
+Liverpool Wavertree,Lab,Lab
+Liverpool West Derby,Lab,Lab
+Llanelli,Con,Lab
+Loughborough,Con,Lab
+Louth and Horncastle,Con,Con
+Ludlow,Con,Con
+Luton North,Lab,Lab
+Luton South,Con,Lab
+Macclesfield,Con,Con
+Maidenhead,Con,Con
+Maidstone and The Weald,Con,Con
+Makerfield,Lab,Lab
+Maldon,Con,Con
+Manchester Central,Lab,Lab
+Manchester Gorton,Lab,Lab
+Manchester Withington,Lab,Lab
+Mansfield,Con,Lab
+Meon Valley,Con,Con
+Meriden,Con,Con
+Merthyr Tydfil and Rhymney,Lab,Lab
+Mid Bedfordshire,Con,Con
+Mid Derbyshire,Con,Con
+Mid Dorset and North Poole,Con,Con
+Mid Norfolk,Con,Con
+Mid Sussex,Con,Con
+Mid Worcestershire,Con,Con
+Middlesbrough,Lab,Lab
+Middlesbrough South and East Cleveland,Con,Lab
+Milton Keynes North,Con,Con
+Milton Keynes South,Con,Con
+Mitcham and Morden,Lab,Lab
+Mole Valley,Con,Con
+Monmouth,Con,Con
+Montgomeryshire,Con,Con
+Morecambe and Lunesdale,Con,Con
+Morley and Outwood,Con,Lab
+Neath,Lab,Lab
+New Forest East,Con,Con
+New Forest West,Con,Con
+Newark,Con,Con
+Newbury,Con,Con
+Newcastle upon Tyne Central,Lab,Lab
+Newcastle upon Tyne East,Lab,Lab
+Newcastle upon Tyne North,Lab,Lab
+Newcastle-under-Lyme,Con,Lab
+Newport East,Con,Lab
+Newport West,Con,Lab
+Newton Abbot,Con,Con
+Normanton Pontefract and Castleford,Lab,Lab
+North Cornwall,Con,Con
+North Devon,Con,Con
+North Dorset,Con,Con
+North Durham,Lab,Lab
+North East Bedfordshire,Con,Con
+North East Cambridgeshire,Con,Con
+North East Derbyshire,Con,Lab
+North East Hampshire,Con,Con
+North East Hertfordshire,Con,Con
+North East Somerset,Con,Con
+North Herefordshire,Con,Con
+North Norfolk,Con,Con
+North Shropshire,Con,Con
+North Somerset,Con,Con
+North Swindon,Con,Con
+North Thanet,Con,Con
+North Tyneside,Lab,Lab
+North Warwickshire,Con,Lab
+North West Cambridgeshire,Con,Con
+North West Durham,Lab,Lab
+North West Hampshire,Con,Con
+North West Leicestershire,Con,Con
+North West Norfolk,Con,Con
+North Wiltshire,Con,Con
+Northampton North,Con,Lab
+Northampton South,Con,Con
+Norwich North,Con,Con
+Norwich South,Con,Lab
+Nottingham East,Lab,Lab
+Nottingham North,Lab,Lab
+Nottingham South,Lab,Lab
+Nuneaton,Con,Con
+Ogmore,Lab,Lab
+Old Bexley and Sidcup,Con,Con
+Oldham East and Saddleworth,Con,Lab
+Oldham West and Royton,Lab,Lab
+Orpington,Con,Con
+Oxford East,Lab,Lab
+Oxford West and Abingdon,Con,Con
+Pendle,Con,Con
+Penistone and Stocksbridge,Con,Lab
+Penrith and The Border,Con,Con
+Peterborough,Con,Lab
+Plymouth Moor View,Con,Con
+Plymouth Sutton and Devonport,Con,Con
+Pontypridd,Con,Lab
+Poole,Con,Con
+Poplar and Limehouse,Lab,Lab
+Portsmouth North ,Con,Con
+Portsmouth South,Con,Con
+Preseli Pembrokeshire,Con,Con
+Preston,Lab,Lab
+Pudsey,Con,Lab
+Putney,Lab,Lab
+Rayleigh and Wickford,Con,Con
+Reading East,Con,Con
+Reading West,Con,Con
+Redcar,Lab,Lab
+Redditch,Con,Con
+Reigate,Con,Con
+Rhondda,Lab,Lab
+Ribble Valley,Con,Con
+Richmond (Yorks),Con,Con
+Richmond Park,Con,Lab
+Rochdale,Lab,Lab
+Rochester and Strood,Con,Con
+Rochford and Southend East,Con,Con
+Romford,Con,Con
+Romsey and Southampton North,Con,Con
+Rossendale and Darwen,Con,Con
+Rother Valley,Con,Lab
+Rotherham,Lab,Lab
+Rugby,Con,Con
+Ruislip Northwood and Pinner,Con,Con
+Runnymede and Weybridge,Con,Con
+Rushcliffe,Con,Con
+Rutland and Melton,Con,Con
+Saffron Walden,Con,Con
+Salford and Eccles,Lab,Lab
+Salisbury,Con,Con
+Scarborough and Whitby,Con,Con
+Scunthorpe,Con,Lab
+Sedgefield,Con,Lab
+Sefton Central,Lab,Lab
+Selby and Ainsty,Con,Con
+Sevenoaks,Con,Con
+Sheffield Central,Lab,Lab
+Sheffield South East,Lab,Lab
+Sheffield Brightside and Hillsborough,Lab,Lab
+Sheffield Hallam,Lab,Lab
+Sheffield Heeley,Lab,Lab
+Sherwood,Con,Con
+Shipley,Con,Con
+Shrewsbury and Atcham,Con,Con
+Sittingbourne and Sheppey,Con,Con
+Skipton and Ripon,Con,Con
+Sleaford and North Hykeham,Con,Con
+Slough,Con,Con
+Solihull,Con,Con
+Somerton and Frome,Con,Con
+South Basildon and East Thurrock,Con,Con
+South Cambridgeshire,Con,Con
+South Derbyshire,Con,Con
+South Dorset,Con,Con
+South East Cambridgeshire,Con,Con
+South East Cornwall,Con,Con
+South Holland and The Deepings,Con,Con
+South Leicestershire,Con,Con
+South Norfolk,Con,Con
+South Northamptonshire,Con,Con
+South Ribble,Con,Con
+South Shields,Lab,Lab
+South Staffordshire,Con,Con
+South Suffolk,Con,Con
+South Swindon,Con,Con
+South Thanet,Con,Con
+South West Bedfordshire,Con,Con
+South West Devon,Con,Con
+South West Hertfordshire,Con,Con
+South West Norfolk,Con,Con
+South West Surrey,Con,Con
+South West Wiltshire,Con,Con
+Southampton Itchen,Con,Con
+Southampton Test,Con,Con
+Southend West,Con,Con
+Southport,Con,Con
+Spelthorne,Con,Con
+St Albans,Con,Con
+St Austell and Newquay,Con,Con
+St Helens North,Lab,Lab
+St Helens South and Whiston,Lab,Lab
+St Ives,Con,Con
+Stafford,Con,Con
+Staffordshire Moorlands,Con,Con
+Stalybridge and Hyde,Lab,Lab
+Stevenage,Con,Lab
+Stockport,Lab,Lab
+Stockton North,Lab,Lab
+Stockton South,Con,Lab
+Stoke-on-Trent Central,Con,Lab
+Stoke-on-Trent North,Con,Lab
+Stoke-on-Trent South,Con,Lab
+Stone,Con,Con
+Stourbridge,Con,Con
+Stratford-on-Avon,Con,Con
+Streatham,Lab,Lab
+Stretford and Urmston,Lab,Lab
+Stroud,Con,Con
+Suffolk Coastal,Con,Con
+Sunderland Central,Lab,Lab
+Surrey Heath,Con,Con
+Sutton and Cheam,Con,Con
+Sutton Coldfield,Con,Con
+Swansea East,Lab,Lab
+Swansea West,Lab,Lab
+Tamworth,Con,Con
+Tatton,Con,Con
+Taunton Deane,Con,Con
+Telford,Con,Lab
+Tewkesbury,Con,Con
+The Cotswolds,Con,Con
+The Wrekin,Con,Con
+Thirsk and Malton,Con,Con
+Thornbury and Yate,Con,Con
+Thurrock,Con,Con
+Tiverton and Honiton,Con,Con
+Tonbridge and Malling,Con,Con
+Tooting,Lab,Lab
+Torbay,Con,Con
+Torfaen,Con,Lab
+Torridge and West Devon,Con,Con
+Totnes,Con,Con
+Tottenham,Lab,Lab
+Truro and Falmouth,Con,Con
+Tunbridge Wells,Con,Con
+Twickenham,Con,Lab
+Tynemouth,Lab,Lab
+Uxbridge and South Ruislip,Lab,Lab
+Vale of Clwyd,Con,Lab
+Vale of Glamorgan,Con,Lab
+Vauxhall,Lab,Lab
+Wakefield,Con,Lab
+Wallasey,Lab,Lab
+Walsall North,Con,Lab
+Walsall South,Con,Lab
+Walthamstow,Lab,Lab
+Wansbeck,Lab,Lab
+Wantage,Con,Con
+Warley,Lab,Lab
+Warrington North,Lab,Lab
+Warrington South,Con,Lab
+Warwick and Leamington,Con,Lab
+Washington and Sunderland West,Lab,Lab
+Watford,Con,Lab
+Waveney,Con,Con
+Wealden,Con,Con
+Weaver Vale,Con,Lab
+Wellingborough,Con,Con
+Wells,Con,Con
+Welwyn Hatfield,Con,Con
+Wentworth and Dearne,Lab,Lab
+West Bromwich East,Con,Lab
+West Bromwich West,Con,Lab
+West Dorset,Con,Con
+West Ham,Lab,Lab
+West Lancashire,Lab,Lab
+West Suffolk,Con,Con
+West Worcestershire,Con,Con
+Westminster North,Lab,Lab
+Westmorland and Lonsdale,Con,Con
+Weston-Super-Mare,Con,Con
+Wigan,Lab,Lab
+Wimbledon,Lab,Lab
+Winchester,Con,Con
+Windsor,Con,Con
+Wirral South,Lab,Lab
+Wirral West,Con,Lab
+Witham,Con,Con
+Witney,Con,Con
+Woking,Con,Con
+Wokingham,Con,Con
+Wolverhampton North East,Con,Lab
+Wolverhampton South East,Con,Lab
+Wolverhampton South West,Con,Lab
+Worcester,Con,Lab
+Workington,Con,Lab
+Worsley and Eccles South,Lab,Lab
+Worthing West,Con,Con
+Wrexham,Con,Lab
+Wycombe,Con,Con
+Wyre and Preston North,Con,Con
+Wyre Forest,Con,Con
+Wythenshawe and Sale East,Lab,Lab
+Yeovil,Con,Con
+Ynys M�n,Con,Lab
+York Central,Lab,Lab
+York Outer,Con,Con
