@@ -76,7 +76,7 @@ namespace ElectionPredictor
                 }
 
                 Random r = new Random();
-                var prob = r.NextDouble();
+                var prob = r.NextDouble() * summedProbabilities.Values.Last();
 
                 for (int n = 0; n < parties.Count; n++)
                 {
@@ -87,6 +87,11 @@ namespace ElectionPredictor
                         voter.IntentionEnum = parties[n];
                         continue;
                     }
+                }
+
+                if (!voter.IntentionEnum.HasValue)
+                {
+                    throw new InvalidOperationException("Failed to predict how this voter would vote");
                 }
 
                 //voter.IntentionEnum = parties[prediction.PredictedLabel];

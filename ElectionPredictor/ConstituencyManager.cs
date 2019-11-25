@@ -12,7 +12,7 @@ namespace ElectionPredictor
     {
         private static string constuencyDataPath = Path.Combine(Environment.CurrentDirectory, "Data", "constituencies.json");
 
-        public static void GetConstituencies(Election electionToPredict)
+        public static IList<Constituency> GetConstituencies(Election electionToPredict, bool includeEnglandWales, bool includeScotland)
         {
             dynamic loadedJson; 
             using (StreamReader r = new StreamReader(constuencyDataPath))
@@ -31,10 +31,12 @@ namespace ElectionPredictor
                 var c = new Constituency();
 
                 var regionString = (string)constituency.region;
-                if (regionString == "Northern Ireland")
+                if (regionString == "Northern Ireland" || (!includeScotland && regionString == "Scotland") || (!includeEnglandWales && regionString != "Scotland"))
                     continue; // ignore NI
 
                 c.Region = GetRegionFromString(regionString);
+
+                c.Name = (string)constituency.name;
 
                 c.ONSReference = (string)constituency.onsRef;
 
@@ -50,13 +52,57 @@ namespace ElectionPredictor
                 foreach (var result in electionResult)
                 {
                     Party party = GetPartyFromString((string)result.Name);
-                    c.PreviousVote.Add(party, (double)result.Value);
+                    double value = (double)result.Value;
+
+                    if (party == Party.Other && c.PreviousVote.ContainsKey(Party.Other))
+                    {
+                        c.PreviousVote[party] = c.PreviousVote[party] + value;
+                    }
+                    else
+                    {
+                        c.PreviousVote.Add(party, value);
+                    }
                 }
 
-                var y = false;
+                if (electionToPredict == Election.e2017)
+                {
+                    var actualResults = new Dictionary<Party, double>();
+                    foreach (var result in constituency.elections["2017"])
+                    {
+                        Party party = GetPartyFromString((string)result.Name);
+                        double value = (double)result.Value;
+
+                        if (party == Party.Other && actualResults.ContainsKey(Party.Other))
+                        {
+                            actualResults[party] = actualResults[party] + value;
+                        }
+                        else
+                        {
+                            actualResults.Add(party, value);
+                        }
+                    }
+
+                    c.ActualWinner = actualResults.OrderByDescending(r => r.Value).First().Key;
+                }
+
+                c.Ages = new Dictionary<AgeGroup, double>();
+                foreach (var result in constituency.age)
+                {
+                    AgeGroup age = (AgeGroup)Enum.Parse(typeof(AgeGroup), (string)result.Name);
+                    c.Ages.Add(age, (double)result.Value);
+                }
+
+                c.SocialGrades = new Dictionary<SocialGrade, double>();
+                foreach (var result in constituency.socialGrades)
+                {
+                    SocialGrade socialGrade = (SocialGrade)Enum.Parse(typeof(SocialGrade), (string)result.Name);
+                    c.SocialGrades.Add(socialGrade, (double)result.Value);
+                }
+
+                constituenciesList.Add(c);
             }
 
-            var x = true;
+            return constituenciesList;
         }
 
         private static Party GetPartyFromString(string party)

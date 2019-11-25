@@ -13,6 +13,7 @@ namespace ElectionPredictor
 
         private bool votersGenerated = false;
         private string location;
+        private Constituency constituency;
 
         public void GenerateVotersNationally(int numberOfVoters)
         {
@@ -22,16 +23,22 @@ namespace ElectionPredictor
             votersGenerated = true;
             location = "National";
 
+            Console.WriteLine("Generating voters (Step 1 of 6)");
             GenerateBlankVotersInRegions(numberOfVoters);
 
+            Console.WriteLine("Applying gender (Step 2 of 6)");
             ApplyGender(LoadNationalGenderMalePercentage());
-            
+
+            Console.WriteLine("Applying age (Step 3 of 6)");
             ApplyAgeGroups(LoadNationalAgeGroups());
 
+            Console.WriteLine("Applying social grade (Step 4 of 6)");
             ApplySocialGroupsByRegion(LoadPercentageABCSocialGradeByRegion());
 
+            Console.WriteLine("Applying Referendum Result (Step 5 of 6)");
             ApplyEURefByRegion(LoadReferendumResultPercentageLeaveByRegion());
 
+            Console.WriteLine("Applying previous vote (Step 6 of 6)");
             ApplyPreviousVoteByRegion(LoadPreviousVotePercentagesByRegion());
         }
 
@@ -42,6 +49,7 @@ namespace ElectionPredictor
 
             votersGenerated = true;
             location = constituency.Name;
+            this.constituency = constituency;
 
             GenerateBlankVotersInRegion(constituency.Region, numberOfVoters);
 
@@ -57,30 +65,68 @@ namespace ElectionPredictor
 
         }
 
-        internal void OutputConstituencyVotingIntention()
-        {
-            Dictionary<Party, int> intensions = new Dictionary<Party, int>();
+        private Party winner = Party.None;
 
-            foreach (var v in Voters)
+        public Party Winner
+        {
+            get
             {
-                if (!intensions.ContainsKey(v.IntentionEnum.Value))
+                if (winner  == Party.None)
                 {
-                    intensions.Add(v.IntentionEnum.Value, 0);
+                    winner = Intentions.OrderByDescending(party => party.Value).First().Key;
                 }
 
-                intensions[v.IntentionEnum.Value] += 1;
+                return winner;
             }
+        }
 
-            var winner = intensions.OrderByDescending(party => party.Value).First().Key;
+        private Dictionary<Party, int> intentions;
 
-            Console.WriteLine($"Constituency: {location}. Winner: {winner.ToString()}");
+        public Dictionary<Party, int> Intentions
+        {
+            get
+            {
+                if (intentions == null)
+                {
+                    intentions = new Dictionary<Party, int>();
+
+                    foreach (var v in Voters)
+                    {
+                        if (!intentions.ContainsKey(v.IntentionEnum.Value))
+                        {
+                            intentions.Add(v.IntentionEnum.Value, 0);
+                        }
+
+                        intentions[v.IntentionEnum.Value] += 1;
+                    }
+                }
+
+                return intentions;
+            }
+        }
+
+        public bool IsDifferent => Winner != constituency.ActualWinner;
+
+        internal void OutputConstituencyVotingIntention(bool allPercentages)
+        {
+            if (constituency.ActualWinner == Party.None)
+                Console.WriteLine($"Constituency: {location}. Winner: {Winner.ToString()}");
+            else
+                Console.WriteLine($"Constituency: {location}. Winner: {Winner.ToString()}. Actual:{constituency.ActualWinner} {(IsDifferent ? "**DIFFERENT**" : "")}");
+
+            if (allPercentages)
+                OutputVotingPercentages(Intentions);
+
+            Console.WriteLine();
+        }
+
+        private void OutputVotingPercentages(Dictionary<Party, int> intensions)
+        {
             foreach (var party in intensions.Keys)
             {
                 var count = 100d * intensions[party] / Voters.Count;
                 Console.WriteLine($"Party: {party}. %: {count}");
             }
-
-            Console.WriteLine();
         }
 
         internal void OutputNationalVotingIntention()
@@ -143,6 +189,7 @@ namespace ElectionPredictor
 
         internal void GenerateLikelyVotingIntension(ProbabiliesManager probabilies)
         {
+            Console.WriteLine("Generating likely voting intention");
             foreach (var v in Voters)
             {
                 v.IntentionEnum = probabilies.GetLikeliestParty(v.PreviousVoteEnum.Value, v.AgeGroupEnum.Value, v.GenderEnum.Value, v.ReferendumResultEnum.Value, v.RegionEnum, v.SocialGradeEnum.Value);

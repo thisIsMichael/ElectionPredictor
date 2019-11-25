@@ -18,6 +18,8 @@ namespace ElectionPredictor.Entities
 
         public Region Region;
 
+        public Party ActualWinner = Party.None;
+
         public Dictionary<SocialGrade, double> SocialGrades;
 
         public static Constituency CanterburyExample
@@ -34,12 +36,12 @@ namespace ElectionPredictor.Entities
                         { AgeGroup.A5064, 19403 },
                         { AgeGroup.A65Plus, 22434 }
                     },
-                        ReferendumResults = new Dictionary<ReferendumResult, double>()
+                    ReferendumResults = new Dictionary<ReferendumResult, double>()
                     {
                         { ReferendumResult.Leave, 51 },
                         {ReferendumResult.Remain, 49 }
                     },
-                        PreviousVote = new Dictionary<Party, double>()
+                    PreviousVote = new Dictionary<Party, double>()
                     {
                         { Party.Con, 42.9 },
                         { Party.Lab, 24.5 },
@@ -48,8 +50,8 @@ namespace ElectionPredictor.Entities
                         { Party.Green, 7.0 },
                         { Party.Other, 0.3 }
                     },
-                        Region = Region.South,
-                        SocialGrades = new Dictionary<SocialGrade, double>()
+                    Region = Region.South,
+                    SocialGrades = new Dictionary<SocialGrade, double>()
                     {
                         { SocialGrade.ABC1, 59.6 },
                         { SocialGrade.C2DE, 40.4 }
