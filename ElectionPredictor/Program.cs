@@ -11,12 +11,29 @@ namespace ElectionPredictor
         const int numberOfNationalVotersToGenerate = 100000;
         const int numberOfLocalVotersToGenerate = 10000;
         const int iterations = 100;
+        private static PredictionType predictionType = PredictionType.Scotland2019;
+        private static Election ElectionToPredict
+        {
+            get 
+            {
+                if (predictionType == PredictionType.EnglandWales2017 || 
+                    predictionType == PredictionType.Scotland2017)
+                {
+                    return Election.e2017;
+                }
+                else
+                {
+                    return Election.e2019;
+                }
+            }
+        }
 
         private static string logPath = Path.Combine(Environment.CurrentDirectory, "Output", "modelOutput.txt");
         private static string winningPath = Path.Combine(Environment.CurrentDirectory, "Output", "winningStatistics.csv");
         private static string conPath = Path.Combine(Environment.CurrentDirectory, "Output", "conStatistics.csv");
         private static string labPath = Path.Combine(Environment.CurrentDirectory, "Output", "labStatistics.csv");
         private static string ldPath = Path.Combine(Environment.CurrentDirectory, "Output", "ldStatistics.csv");
+        private static string snpPath = Path.Combine(Environment.CurrentDirectory, "Output", "snpStatistics.csv");
         private static string actualWinners = Path.Combine(Environment.CurrentDirectory, "Output", "2017Results.csv");
 
         private static Dictionary<string, List<string>> combinedResults = new Dictionary<string, List<string>>();
@@ -24,7 +41,7 @@ namespace ElectionPredictor
         private static Dictionary<string, List<string>> combinedLab = new Dictionary<string, List<string>>();
         private static Dictionary<string, List<string>> combinedLD = new Dictionary<string, List<string>>();
         private static Dictionary<string, List<string>> combinedUKIP = new Dictionary<string, List<string>>();
-        //private static Dictionary<string, List<string>> combinedResults = new Dictionary<string, List<string>>();
+        private static Dictionary<string, List<string>> combinedSNP = new Dictionary<string, List<string>>();
 
 
 
@@ -40,7 +57,7 @@ namespace ElectionPredictor
             {
                 Console.WriteLine($"Run {n}");
 
-                Election electionToPredict = Election.e2017;
+                
 
                 model = new ElectionMLModel();
 
@@ -50,9 +67,9 @@ namespace ElectionPredictor
                 }
                 else
                 {
-                    var probabilies = new ProbabiliesManager();
+                    var probabilies = new ProbabiliesManager(predictionType);
 
-                    var voters = new VoterManager();
+                    var voters = new VoterManager(predictionType);
                     voters.GenerateVotersNationally(numberOfNationalVotersToGenerate);
                     voters.GenerateLikelyVotingIntension(probabilies);
 
@@ -119,10 +136,13 @@ namespace ElectionPredictor
 
                 var constituencyIntentions = new Dictionary<string, VoterManager>();
 
-                foreach (var constituency in ConstituencyManager.GetConstituencies(electionToPredict, true, false))
+                var includeEnglandWales = predictionType == PredictionType.EnglandWales2017 || predictionType == PredictionType.EnglandWales2019;
+                var includeScotland = predictionType == PredictionType.Scotland2017 || predictionType == PredictionType.Scotland2019;
+
+                foreach (var constituency in ConstituencyManager.GetConstituencies(ElectionToPredict, includeEnglandWales, includeScotland))
                 {
                     //Console.WriteLine($"Predicting for {constituency.Name}...");
-                    var constituencyVoters = new VoterManager();
+                    var constituencyVoters = new VoterManager(predictionType);
                     constituencyVoters.GenerateVotersForConstituency(constituency, 10000);
                     model.PredictVotersIntentions(constituencyVoters);
 
@@ -211,6 +231,15 @@ namespace ElectionPredictor
                 }
             }
 
+            using (OutputController snpOutput = new OutputController(snpPath))
+            {
+                foreach (var name in combinedSNP.Keys)
+                {
+                    string snpVotes = $"{name},{string.Join(",", combinedSNP[name])}";
+                    snpOutput.WriteLine(snpVotes);
+                }
+            }
+
             using (OutputController actualResults = new OutputController(actualWinners))
             {
                 foreach (var c in ConstituencyManager.GetConstituencies(Election.e2017, true, false))
@@ -258,6 +287,13 @@ namespace ElectionPredictor
                 }
 
                 combinedLD[id].Add(constituencyIntentions[id].Intentions[Party.LibDem].ToString());
+
+                if (!combinedSNP.ContainsKey(id))
+                {
+                    combinedSNP.Add(id, new List<string>());
+                }
+
+                combinedSNP[id].Add(constituencyIntentions[id].Intentions[Party.SNP].ToString());
             }
         }
 

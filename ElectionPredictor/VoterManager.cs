@@ -10,10 +10,16 @@ namespace ElectionPredictor
     public class VoterManager
     {
         public IList<Voter> Voters = new List<Voter>();
+        bool scotlandOnly;
 
         private bool votersGenerated = false;
         private string location;
         private Constituency constituency;
+
+        public VoterManager(PredictionType type)
+        {
+            scotlandOnly = type == PredictionType.Scotland2017 || type == PredictionType.Scotland2019;
+        }
 
         public void GenerateVotersNationally(int numberOfVoters)
         {
@@ -678,6 +684,11 @@ namespace ElectionPredictor
 
             foreach (var region in regionPercentages.Keys)
             {
+                if (scotlandOnly && region != Region.Scotland || !scotlandOnly && region == Region.Scotland)
+                {
+                    continue;
+                }
+
                 for (var n = 0; n < regionPercentages[region]; n++)
                 {
                     Voters.Add(new Voter { RegionEnum = region });

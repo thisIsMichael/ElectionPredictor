@@ -16,9 +16,12 @@ namespace ElectionPredictor
         Dictionary<Region, PartyPrediction> RegionProbabilities = new Dictionary<Region, PartyPrediction>();
         Dictionary<SocialGrade, PartyPrediction> SocialGradeProbabilities = new Dictionary<SocialGrade, PartyPrediction>();
 
-        public ProbabiliesManager()
+        private string pollingDataPath;
+        bool containsScotland;
+
+        public ProbabiliesManager(PredictionType type)
         {
-            LoadProbabilities();
+            LoadProbabilities(type);
         }
 
         public Party GetLikeliestParty(Party previousVote, AgeGroup age, Gender gender, ReferendumResult referendum, Region region, SocialGrade socialGrade)
@@ -28,19 +31,19 @@ namespace ElectionPredictor
 
             foreach (var party in Enum.GetValues(typeof(Party)).Cast<Party>())
             {
-                if (party == Party.SNP && region != Region.Scotland)
-                {
-                    continue;
-                }
+                //if (party == Party.SNP && region != Region.Scotland)
+                //{
+                //    continue;
+                //}
 
-                var isRegionalParty = (region == Region.Scotland && party == Party.SNP) || (region == Region.MidlandsWales && party == Party.PlaidCymru);
-                var regionalMultiplier = isRegionalParty ? 2 : 1;
-                var bonusPreviousParty = previousVote == party ? 2 : 1;
+                //var isRegionalParty = (region == Region.Scotland && party == Party.SNP) || (region == Region.MidlandsWales && party == Party.PlaidCymru);
+                //var regionalMultiplier = isRegionalParty ? 2 : 1;
+                //var bonusPreviousParty = previousVote == party ? 2 : 1;
 
                 var score = AgeProbabilities[age].GetVotingLikelihood(party) +
                             GenderProbabilities[gender].GetVotingLikelihood(party) +
                             ReferendumProbabilities[referendum].GetVotingLikelihood(party) + 
-                            (RegionProbabilities[region].GetVotingLikelihood(party) * regionalMultiplier) +
+                            (RegionProbabilities[region].GetVotingLikelihood(party)) +
                             SocialGradeProbabilities[socialGrade].GetVotingLikelihood(party);
 
                 if (previousVote == Party.UKIP && party == Party.UKIP && referendum == ReferendumResult.Leave)
@@ -64,18 +67,21 @@ namespace ElectionPredictor
 
                     Random random = new Random();
                     var rand = random.Next(100);
-                    if (rand > 80 && previousVote == party)
+                    if (region == Region.Scotland && rand > 90 && previousVote.IsUnionist() && party.IsUnionist())
                     {
                         score *= 100;
-
+                    }
+                    else if (rand > 80 && previousVote == party)// || ())
+                    {
+                        score *= 100;
                     }
                     else if (rand > 40)
                     {
-                        if (rand > 60 && region == Region.Scotland)
-                        {
-                            score += RegionProbabilities[region].GetVotingLikelihood(party) * 80;
-                        }
-                        else if (region != Region.Scotland)
+                        //if (rand > 60 && region == Region.Scotland)
+                        //{
+                        //    score += RegionProbabilities[region].GetVotingLikelihood(party) * 80;
+                        //}
+                        //else if (region != Region.Scotland)
                         {
                             if (rand > 68)
                                 score += AgeProbabilities[age].GetVotingLikelihood(party) * 80;
@@ -83,7 +89,7 @@ namespace ElectionPredictor
                                 score += GenderProbabilities[gender].GetVotingLikelihood(party) * 80;
                             else if (rand > 52)
                                 score += SocialGradeProbabilities[socialGrade].GetVotingLikelihood(party) * 80;
-                            else
+                            else if (region != Region.Scotland)
                                 score += RegionProbabilities[region].GetVotingLikelihood(party) * 80;
                         }
                     }
@@ -104,9 +110,10 @@ namespace ElectionPredictor
             return likeliestParty;
         }
 
-        private void LoadProbabilities()
+        private void LoadProbabilities(PredictionType type)
         {
-            Load2017VotingProbabilities();
+            ConfigurePredicitonType(type);
+            LoadPreviousVoteProbabilities();
             LoadAgeProbabilities();
             LoadGenderProbabilities();
             LoadReferendumProbabilities();
@@ -114,12 +121,46 @@ namespace ElectionPredictor
             LoadSocialGradeProbabilies();
         }
 
+        private void ConfigurePredicitonType(PredictionType type)
+        {
+            switch (type)
+            {
+                case PredictionType.EnglandWales2017:
+                    pollingDataPath = Path.Combine(Environment.CurrentDirectory, "Data", "yougov2017.csv");
+                    containsScotland = false;
+                    break;
+
+                case PredictionType.Scotland2017:
+                    pollingDataPath = Path.Combine(Environment.CurrentDirectory, "Data", "yougov2017Scot.csv");
+                    containsScotland = true;
+                    break;
+
+                case PredictionType.EnglandWales2019:
+                    pollingDataPath = Path.Combine(Environment.CurrentDirectory, "Data", "yougov2019.csv");
+                    containsScotland = false;
+                    break;
+
+                case PredictionType.Scotland2019:
+                    pollingDataPath = Path.Combine(Environment.CurrentDirectory, "Data", "yougov2019Scot.csv");
+                    containsScotland = true;
+                    break;
+
+                default:
+                    throw new Exception($"Unhandled prediction type {type.ToString()}");
+            }
+        }
+
+        private void Load2017ScotlandProbabilities()
+        {
+            throw new NotImplementedException();
+        }
+
         private void LoadSocialGradeProbabilies()
         {
             PartyPrediction givenABC1 = new PartyPrediction();
             PartyPrediction givenC2DE = new PartyPrediction();
 
-            using (var reader = new StreamReader(Path.Combine(Environment.CurrentDirectory, "Data", "yougov2017.csv")))
+            using (var reader = new StreamReader(pollingDataPath))
             {
                 reader.ReadLine();
 
@@ -147,7 +188,7 @@ namespace ElectionPredictor
             PartyPrediction givenNorth = new PartyPrediction();
             PartyPrediction givenScotland = new PartyPrediction();
 
-            using (var reader = new StreamReader(Path.Combine(Environment.CurrentDirectory, "Data", "yougov2017.csv")))
+            using (var reader = new StreamReader(pollingDataPath))
             {
                 reader.ReadLine();
 
@@ -158,19 +199,31 @@ namespace ElectionPredictor
 
                     var party = (Party)Enum.Parse(typeof(Party), values[0]);
 
-                    givenLondon.Add(party, int.Parse(values[16]));
-                    givenSouth.Add(party, int.Parse(values[17]));
-                    givenMidlands.Add(party, int.Parse(values[18]));
-                    givenNorth.Add(party, int.Parse(values[19]));
-                    givenScotland.Add(party, int.Parse(values[20]));
+                    if (!containsScotland)
+                    {
+                        givenLondon.Add(party, int.Parse(values[16]));
+                        givenSouth.Add(party, int.Parse(values[17]));
+                        givenMidlands.Add(party, int.Parse(values[18]));
+                        givenNorth.Add(party, int.Parse(values[19]));
+                    }
+                    else
+                    { 
+                        givenScotland.Add(party, int.Parse(values[20]));
+                    }
                 }
             }
 
-            RegionProbabilities.Add(Region.London, givenLondon);
-            RegionProbabilities.Add(Region.South, givenSouth);
-            RegionProbabilities.Add(Region.MidlandsWales, givenMidlands);
-            RegionProbabilities.Add(Region.North, givenNorth);
-            RegionProbabilities.Add(Region.Scotland, givenScotland);
+            if (!containsScotland)
+            {
+                RegionProbabilities.Add(Region.London, givenLondon);
+                RegionProbabilities.Add(Region.South, givenSouth);
+                RegionProbabilities.Add(Region.MidlandsWales, givenMidlands);
+                RegionProbabilities.Add(Region.North, givenNorth);
+            }
+            else
+            {
+                RegionProbabilities.Add(Region.Scotland, givenScotland);
+            }
         }
 
         private void LoadReferendumProbabilities()
@@ -178,7 +231,7 @@ namespace ElectionPredictor
             PartyPrediction givenRemain = new PartyPrediction();
             PartyPrediction givenLeave = new PartyPrediction();
 
-            using (var reader = new StreamReader(Path.Combine(Environment.CurrentDirectory, "Data", "yougov2017.csv")))
+            using (var reader = new StreamReader(pollingDataPath))
             {
                 reader.ReadLine();
 
@@ -203,7 +256,7 @@ namespace ElectionPredictor
             PartyPrediction givenMale = new PartyPrediction();
             PartyPrediction givenFemale = new PartyPrediction();
 
-            using (var reader = new StreamReader(Path.Combine(Environment.CurrentDirectory, "Data", "yougov2017.csv")))
+            using (var reader = new StreamReader(pollingDataPath))
             {
                 reader.ReadLine();
 
@@ -230,7 +283,7 @@ namespace ElectionPredictor
             PartyPrediction given5064 = new PartyPrediction();
             PartyPrediction given65Plus = new PartyPrediction();
 
-            using (var reader = new StreamReader(Path.Combine(Environment.CurrentDirectory, "Data", "yougov2017.csv")))
+            using (var reader = new StreamReader(pollingDataPath))
             {
                 reader.ReadLine();
 
@@ -254,13 +307,14 @@ namespace ElectionPredictor
             AgeProbabilities.Add(AgeGroup.A65Plus, given65Plus);
         }
 
-        private void Load2017VotingProbabilities()
+        private void LoadPreviousVoteProbabilities()
         {
             PartyPrediction givenVotedCon17 = new PartyPrediction();
             PartyPrediction givenVotedLab17 = new PartyPrediction();
             PartyPrediction givenVotedLibDem17 = new PartyPrediction();
+            PartyPrediction givenVotedOther17 = new PartyPrediction();
 
-            using (var reader = new StreamReader(Path.Combine(Environment.CurrentDirectory, "Data", "yougov2017.csv")))
+            using (var reader = new StreamReader(pollingDataPath))
             {
                 reader.ReadLine();
 
@@ -274,12 +328,20 @@ namespace ElectionPredictor
                     givenVotedCon17.Add(party, int.Parse(values[4]));
                     givenVotedLab17.Add(party, int.Parse(values[5]));
                     givenVotedLibDem17.Add(party, int.Parse(values[6]));
+
+                    if (!String.IsNullOrWhiteSpace(values[7]))
+                        givenVotedOther17.Add(party, int.Parse(values[7]));
                 }
             }
 
             PreviousElectionProbabilities.Add(Party.Con, givenVotedCon17);
             PreviousElectionProbabilities.Add(Party.Lab, givenVotedLab17);
             PreviousElectionProbabilities.Add(Party.LibDem, givenVotedLibDem17);
+
+            if (containsScotland)
+            {
+                PreviousElectionProbabilities.Add(Party.SNP, givenVotedOther17);
+            }
         }
     }
 }
